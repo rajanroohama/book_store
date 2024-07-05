@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}
+Cart
+{% endblock %}
+
+{% block content %}
+<style>
+    .cart-container {
+        margin-top: 50px;
+    }
+
+    .cart-header {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #343a40;
+        text-transform: uppercase;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        border-color: #dee2e6;
+        padding: 15px; /* Adjust padding for th and td */
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .cart-item-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 20px;
+    }
+
+    .cart-item-details {
+        flex: 1;
+    }
+
+    .cart-actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .cart-actions button {
+        background-color: #ffffff;
+        color: rgb(0, 0, 0);
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+
+    .cart-actions button:hover {
+        background-color: #ffffff;
+    }
+
+    .cart-remove button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .cart-remove button:hover {
+        background-color: #c82333;
+    }
+
+    .total-amount {
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+        color: #343a40;
+        text-transform: uppercase;
+        font-weight: bold;
+        padding: 20px; /* Increase padding for th elements */
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+
+<section class="cart-container">
+    <div class="container">
+        <h1 class="cart-header">Your Books Cart</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    
+                    <th scope="col">Price</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in cartitems %}
+                <tr>
+                    <td class="cart-item">
+                        <img src="{{ cart_item.book.image }}" alt="{{ cart_item.book.name }}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <h5>{{ cart_item.book.name }}</h5>
+                            <p>{{ cart_item.book.des }}</p>
+                        </div>
+                    </td>
+                    <td class="cart-actions">
+                        <form action="{% url 'updatecart' cart_item.book.id 'decrease' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button class="btn">-</button>
+                        </form>
+                        <span class="mx-3">{{ cart_item.quantity }}</span>
+                        <form action="{% url 'updatecart' cart_item.book.id 'increase' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button class="btn">+</button>
+                        </form>
+                    </td>
+                    <td>{{ cart_item.book.price }}</td>
+                    <td>{{ cart_item.total_price|floatformat:2 }}</td>
+                    <td class="cart-remove">
+                        <form action="{% url 'remove_from_cart' cart_item.book.id %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-right total-amount">Total Amount:</td>
+                    <td colspan="2" class="total-amount">{{ total_amount|floatformat:2 }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

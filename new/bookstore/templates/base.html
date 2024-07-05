@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .header {
+            width: 100%;
+            height: 50px;
+            background-color: #fefbfb;
+            display: flex;
+            align-items: center;
+        }
+
+        #mini {
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            font-family: 'Times New Roman', Times, serif;
+            padding-left: 10px;
+            font-size: 30px;
+            margin: 0; 
+        }
+        #minii {
+            text-decoration: none;
+            color: grey;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+        }
+        .con {
+            text-decoration: none;
+            color: rgb(0, 0, 0);
+            padding-left: 50px;
+            margin-left: 40px;
+        }
+        .footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+        }
+        #searchbar {
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: #555;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-left: 0px;
+        }
+        #search {
+            padding: 5px;
+            margin-left: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a id="mini"><b>OpEn</b></a>
+        <a id="minii"><b>BooKs</b></a>
+        <a class="con" href="{% url 'index' %}">Home</a>
+        <a class="con" href="{% url 'books' %}">Books</a>
+        <a class="con" href="{% url 'cart' %}">Your Cart</a>
+        <a class="con" href="{% url 'orders' %}">Your Orders</a>
+        
+    </div>
+    
+    {% block content %}{% endblock %}
+</body>
+</html>
